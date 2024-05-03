@@ -1,8 +1,9 @@
-import { Theme } from '@radix-ui/themes'
+import { Container, Flex, Grid, Theme } from '@radix-ui/themes'
 import '@radix-ui/themes/styles.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import Sidebar from './Sidebar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,11 +19,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
-        <Theme>
-          <main>{children}</main>
-        </Theme>
-      </body>
+          <body className={inter.className}>
+            <Theme>
+              <Flex>
+                  <Sidebar />
+                  <main className='py-4 px-6'>{children}</main>
+              </Flex>
+            </Theme>
+          </body>
     </html>
   )
 }
