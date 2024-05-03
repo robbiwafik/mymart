@@ -23,7 +23,9 @@ export default function RootLayout({
             <Theme>
               <Flex>
                   <Sidebar />
-                  <main className='py-4 px-6'>{children}</main>
+                  <main className='py-4 px-6 w-full'>
+                    {children}
+                  </main>
               </Flex>
             </Theme>
           </body>

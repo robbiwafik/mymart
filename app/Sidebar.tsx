@@ -1,6 +1,6 @@
 'use client'
 
-import { DashboardIcon, DropdownMenuIcon, HamburgerMenuIcon } from '@radix-ui/react-icons'
+import { DashboardIcon, HamburgerMenuIcon, TableIcon } from '@radix-ui/react-icons'
 import { Flex, Text } from '@radix-ui/themes'
 import classNames from 'classnames'
 import Link from 'next/link'
@@ -17,8 +17,7 @@ export default function Sidebar() {
         href: string
     }[] = [
         { label: 'Dashboard', Icon: <DashboardIcon />, href: '/'},
-        { label: 'Menu 1', Icon: <HamburgerMenuIcon />, href: '/menu1'},
-        { label: 'Menu 2', Icon: <DropdownMenuIcon />, href: '/menu2'}
+        { label: 'Category', Icon: <TableIcon />, href: '/categories/list'}
     ]
 
     return (
