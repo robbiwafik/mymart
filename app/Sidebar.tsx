@@ -17,7 +17,7 @@ export default function Sidebar() {
         href: string
     }[] = [
         { label: 'Dashboard', Icon: <DashboardIcon />, href: '/'},
-        { label: 'Category', Icon: <TableIcon />, href: '/categories/list'}
+        { label: 'Categories', Icon: <TableIcon />, href: '/categories/list'}
     ]
 
     return (
