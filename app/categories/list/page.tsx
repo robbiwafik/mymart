@@ -1,5 +1,5 @@
 import prisma from '@/prisma/client'
-import { Box, Button, Flex, Table } from '@radix-ui/themes'
+import { Box, Button, Flex, Link as RadixLink, Table } from '@radix-ui/themes'
 import Link from 'next/link'
 
 export default async function CategoriesPage() {
@@ -25,7 +25,11 @@ export default async function CategoriesPage() {
                     {categories.map((category, index) => (
                         <Table.Row key={category.id}>
                             <Table.Cell>{index + 1}</Table.Cell>
-                            <Table.RowHeaderCell>{category.name}</Table.RowHeaderCell>
+                            <Table.RowHeaderCell>
+                                <Link href={`/categories/${category.id}`} legacyBehavior passHref>
+                                    <RadixLink>{category.name}</RadixLink>
+                                </Link>
+                            </Table.RowHeaderCell>
                             <Table.Cell className='hidden md:table-cell'>{category.createdAt.toDateString()}</Table.Cell>
                             <Table.Cell className='hidden md:table-cell'>{category.updatedAt.toDateString()}</Table.Cell>
                         </Table.Row>
