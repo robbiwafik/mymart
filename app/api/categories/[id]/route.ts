@@ -25,3 +25,17 @@ export async function PATCH(request: NextRequest, { params }: Props) {
 
     return NextResponse.json(updatedCategory)
 }
+
+export async function DELETE(request: NextRequest, { params }: Props) {
+    const category = await prisma.category.findUnique({
+        where: { id: parseInt(params.id) }
+    })
+    if (!category)
+        return NextResponse.json({ error: 'Invalid category.'}, { status: 404 })
+
+    await prisma.category.delete({
+        where: { id: category.id }
+    })
+
+    return NextResponse.json({})
+}
