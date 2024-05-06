@@ -12,6 +12,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { z } from 'zod'
+import DeleteButton from './DeleteButton'
 import Field from './Field'
 
 interface Props {
@@ -35,6 +36,7 @@ export default function CategoryForm({ category }: Props) {
             else
                 await axios.post('/api/categories', data)
             router.push('/categories/list')
+            router.refresh()
         }
         catch {
             toast.error('An unexpected error ocurred.')
@@ -74,14 +76,17 @@ export default function CategoryForm({ category }: Props) {
                         maxWidth='500px' 
                         disabled
                     />}
-                    <Flex gap='4' justify='end'>
-                        <Button variant='soft' color='gray'>
-                            <Link href='/categories/list'>Go back</Link>
-                        </Button>
-                        <Button disabled={isSubmitting}>
-                            <Spinner loading={isSubmitting} />
-                            Submit
-                        </Button>
+                    <Flex justify={category ? 'between' : 'end'}>
+                        {category && <DeleteButton categoryId={category.id} />}
+                        <Flex gap='4' justify='end'>
+                            <Button variant='soft' color='gray'>
+                                <Link href='/categories/list'>Go back</Link>
+                            </Button>
+                            <Button disabled={isSubmitting}>
+                                <Spinner loading={isSubmitting} />
+                                Submit
+                            </Button>
+                        </Flex>
                     </Flex>
                 </form>
             </Card>
