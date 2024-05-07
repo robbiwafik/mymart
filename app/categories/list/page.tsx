@@ -1,9 +1,22 @@
 import prisma from '@/prisma/client'
 import { Box, Button, Flex, Link as RadixLink, Table } from '@radix-ui/themes'
 import Link from 'next/link'
+import Pagination from './Pagination'
 
-export default async function CategoriesPage() {
-    const categories = await prisma.category.findMany()
+interface Props {
+    searchParams: { page: string }
+}
+
+export default async function CategoriesPage({ searchParams }: Props) {
+    // Pagination
+    const pageSize = 10
+    const categoryCount: number = await prisma.category.count()   
+    const currentPage = parseInt(searchParams.page) || 1
+
+    const categories = await prisma.category.findMany({
+        skip: (currentPage - 1) * pageSize,
+        take: pageSize
+    })
 
     return (
         <Box>
@@ -24,7 +37,7 @@ export default async function CategoriesPage() {
                 <Table.Body>
                     {categories.map((category, index) => (
                         <Table.Row key={category.id}>
-                            <Table.Cell>{index + 1}</Table.Cell>
+                            <Table.Cell>{(currentPage - 1) * pageSize + index + 1}</Table.Cell>
                             <Table.RowHeaderCell>
                                 <Link href={`/categories/${category.id}`} legacyBehavior passHref>
                                     <RadixLink>{category.name}</RadixLink>
@@ -36,6 +49,11 @@ export default async function CategoriesPage() {
                     ))}
                 </Table.Body>
             </Table.Root>
+            <Pagination 
+                categoryCount={categoryCount}
+                currentPage={currentPage} 
+                pageSize={pageSize}
+            />
         </Box>
     )
 }
