@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { z } from 'zod'
 import DeleteButton from './DeleteButton'
 import Field from './Field'
+import paths from '@/app/paths'
 
 interface Props {
     category?: Category
@@ -35,7 +36,7 @@ export default function CategoryForm({ category }: Props) {
                 await axios.patch(`/api/categories/${category.id}`, data)
             else
                 await axios.post('/api/categories', data)
-            router.push('/categories/list')
+            router.push(paths.CATEGORY_LIST)
             router.refresh()
         }
         catch {
@@ -80,7 +81,7 @@ export default function CategoryForm({ category }: Props) {
                         {category && <DeleteButton categoryId={category.id} />}
                         <Flex gap='4' justify='end'>
                             <Button variant='soft' color='gray'>
-                                <Link href='/categories/list'>Go back</Link>
+                                <Link href={paths.CATEGORY_LIST}>Go back</Link>
                             </Button>
                             <Button disabled={isSubmitting}>
                                 <Spinner loading={isSubmitting} />

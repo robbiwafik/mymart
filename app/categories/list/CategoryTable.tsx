@@ -1,3 +1,4 @@
+import paths from '@/app/paths'
 import { Category } from '@prisma/client'
 import { Link as RadixLink, Table } from '@radix-ui/themes'
 import Link from 'next/link'
@@ -24,7 +25,7 @@ export default function CategoryTable({ categories, currentPage, pageSize }: Pro
                     <Table.Row key={category.id}>
                         <Table.Cell>{(currentPage - 1) * pageSize + index + 1}</Table.Cell>
                         <Table.RowHeaderCell>
-                            <Link href={`/categories/${category.id}`} legacyBehavior passHref>
+                            <Link href={paths.categoryDetails(category.id)} legacyBehavior passHref>
                                 <RadixLink>{category.name}</RadixLink>
                             </Link>
                         </Table.RowHeaderCell>

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import CategoryTable from './CategoryTable'
 import Pagination from './Pagination'
 import SearchBox from './SearchBox'
+import paths from '@/app/paths'
 
 interface Props {
     searchParams: { page: string, search: string }
@@ -36,7 +37,7 @@ export default async function CategoriesPage({ searchParams }: Props) {
             >
                 <SearchBox />
                 <Button>
-                    <Link href='/categories/new'>New category</Link>
+                    <Link href={paths.NEW_CATEGORY}>New category</Link>
                 </Button>
             </Flex>
             <CategoryTable 

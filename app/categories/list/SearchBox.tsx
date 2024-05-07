@@ -1,5 +1,6 @@
 'use client'
 
+import paths from '@/app/paths'
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { Box, Button, Flex, TextField } from '@radix-ui/themes'
 import { useRouter } from 'next/navigation'
@@ -13,12 +14,12 @@ export default function SearchBox() {
         const urlSearchParams = new URLSearchParams()
         urlSearchParams.append('search', searchQuery)
         const queryParams = searchQuery ? '?' + urlSearchParams.toString() : ''
-        router.push('/categories/list' + queryParams)
+        router.push(paths.CATEGORY_LIST + queryParams)
     }
 
     const handleClear = () => {
         setSearchQuery('')
-        router.push('/categories/list')
+        router.push(paths.CATEGORY_LIST)
     }
 
     return (

@@ -1,3 +1,4 @@
+import paths from '@/app/paths'
 import { AlertDialog, Button, Flex } from '@radix-ui/themes'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -14,7 +15,7 @@ export default function DeleteButton({ categoryId }: Props) {
     const handleDelete = async () => {
         try {
             await axios.delete(`/api/categories/${categoryId}`)
-            router.push('/categories/list')
+            router.push(paths.CATEGORY_LIST)
             router.refresh()
         }
         catch {

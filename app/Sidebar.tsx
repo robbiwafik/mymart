@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ReactNode, useState } from 'react'
+import paths from './paths'
 
 export default function Sidebar() {
     const [ expand, setExpand ] = useState(true)
@@ -17,7 +18,7 @@ export default function Sidebar() {
         href: string
     }[] = [
         { label: 'Dashboard', Icon: <DashboardIcon />, href: '/'},
-        { label: 'Categories', Icon: <TableIcon />, href: '/categories/list'}
+        { label: 'Categories', Icon: <TableIcon />, href: paths.CATEGORY_LIST}
     ]
 
     return (

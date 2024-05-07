@@ -1,5 +1,6 @@
 'use client'
 
+import paths from '@/app/paths'
 import { ChevronLeftIcon, ChevronRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons'
 import { Button, Flex, Text } from '@radix-ui/themes'
 import { notFound, useRouter, useSearchParams } from 'next/navigation'
@@ -21,7 +22,7 @@ export default function Pagination({ categoryCount, currentPage, pageSize }: Pro
     const handleMovePage = (page: number) => {
         const urlSearchParams = new URLSearchParams(searchParams)
         urlSearchParams.set('page', page.toString())
-        router.push(`/categories/list?${urlSearchParams.toString()}`)
+        router.push(`${paths.CATEGORY_LIST}?${urlSearchParams.toString()}`)
     }
 
     if (pageCount <= 1)
