@@ -1,26 +1,39 @@
 import prisma from '@/prisma/client'
+import { Prisma } from '@prisma/client'
 import { Box, Button, Flex, Link as RadixLink, Table } from '@radix-ui/themes'
 import Link from 'next/link'
 import Pagination from './Pagination'
+import SearchBox from './SearchBox'
 
 interface Props {
-    searchParams: { page: string }
+    searchParams: { page: string, search: string }
 }
 
 export default async function CategoriesPage({ searchParams }: Props) {
     // Pagination
-    const pageSize = 10
-    const categoryCount: number = await prisma.category.count()   
+    const pageSize = 10   
     const currentPage = parseInt(searchParams.page) || 1
+
+    const whereOption: Prisma.CategoryWhereInput = {
+        name: {
+            contains: searchParams.search
+        }
+    }
 
     const categories = await prisma.category.findMany({
         skip: (currentPage - 1) * pageSize,
-        take: pageSize
+        take: pageSize,
+        where: whereOption
     })
 
+    const categoryCount = await prisma.category.count({
+        where: whereOption
+    })
+        
     return (
         <Box>
-            <Flex justify='end' mb='4'>
+            <Flex mb='4' gap='4' justify='between' align='center'>
+                <SearchBox />
                 <Button>
                     <Link href='/categories/new'>New category</Link>
                 </Button>

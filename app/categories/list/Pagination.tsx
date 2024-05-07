@@ -2,7 +2,7 @@
 
 import { ChevronLeftIcon, ChevronRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons'
 import { Button, Flex, Text } from '@radix-ui/themes'
-import { notFound, useRouter } from 'next/navigation'
+import { notFound, useRouter, useSearchParams } from 'next/navigation'
 
 interface Props {
     categoryCount: number
@@ -12,13 +12,16 @@ interface Props {
 
 export default function Pagination({ categoryCount, currentPage, pageSize }: Props ) {
     const router = useRouter()
+    const searchParams = useSearchParams()
     const pageCount = Math.ceil(categoryCount / pageSize)
 
-    if (currentPage > pageCount)
+    if (pageCount > 0 && currentPage > pageCount)
         notFound()
 
     const handleMovePage = (page: number) => {
-        router.push('/categories/list?page=' + page)
+        const urlSearchParams = new URLSearchParams(searchParams)
+        urlSearchParams.set('page', page.toString())
+        router.push(`/categories/list?${urlSearchParams.toString()}`)
     }
 
     if (pageCount <= 1)
