@@ -1,7 +1,8 @@
 import paths from '@/app/paths'
 import { Category } from '@prisma/client'
-import { Link as RadixLink, Table } from '@radix-ui/themes'
+import { Flex, Link as RadixLink, Table, Text } from '@radix-ui/themes'
 import Link from 'next/link'
+import { HiFolder } from 'react-icons/hi2'
 import SortableTableColumn from './SortableTableColumn'
 
 interface Props {
@@ -12,6 +13,23 @@ interface Props {
 }
 
 export default function CategoryTable({ categories, currentPage, pageSize, sortedBy }: Props) {
+    if (categories.length === 0)
+        return (
+            <Table.Root variant='surface'>
+                <Flex 
+                    direction='column' 
+                    justify='center' 
+                    align='center' 
+                    height='500px'
+                    className='text-slate-200'
+                    gap='3'
+                >
+                    <HiFolder size={70} />
+                    <Text size='4' weight='light'>No results found</Text>
+                </Flex>
+            </Table.Root>
+        )
+
     return (
         <Table.Root variant='surface'>
             <Table.Header>
