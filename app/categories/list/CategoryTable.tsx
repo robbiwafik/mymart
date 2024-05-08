@@ -2,22 +2,42 @@ import paths from '@/app/paths'
 import { Category } from '@prisma/client'
 import { Link as RadixLink, Table } from '@radix-ui/themes'
 import Link from 'next/link'
+import SortableTableColumn from './SortableTableColumn'
 
 interface Props {
     categories: Category[],
     currentPage: number,
-    pageSize: number
+    pageSize: number,
+    sortedBy: string
 }
 
-export default function CategoryTable({ categories, currentPage, pageSize }: Props) {
+export default function CategoryTable({ categories, currentPage, pageSize, sortedBy }: Props) {
     return (
         <Table.Root variant='surface'>
             <Table.Header>
                 <Table.Row>
                     <Table.ColumnHeaderCell>#</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell className='hidden md:table-cell'>Created at</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell className='hidden md:table-cell'>Updated at</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>
+                        <SortableTableColumn 
+                            label='Name'
+                            sortField='name'
+                            currentlySortedBy={sortedBy}
+                        />
+                    </Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell className='hidden md:table-cell'>
+                        <SortableTableColumn 
+                            label='Created At'
+                            sortField='createdAt'
+                            currentlySortedBy={sortedBy}
+                        />
+                    </Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell className='hidden md:table-cell'>
+                        <SortableTableColumn 
+                                label='Updated At'
+                                sortField='updatedAt'
+                                currentlySortedBy={sortedBy}
+                            />
+                    </Table.ColumnHeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
