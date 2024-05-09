@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Sidebar from './Sidebar'
+import RegisterPage from './users/register/page'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,16 +20,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-          <body className={inter.className}>
-            <Theme>
-              <Flex>
-                  <Sidebar />
-                  <main className='py-4 px-6 w-full'>
-                    {children}
-                  </main>
-              </Flex>
-            </Theme>
-          </body>
+        <body className={inter.className}>
+          <Theme>
+            {/* <Flex>
+                <Sidebar />
+                <main className='py-4 px-6 w-full'>
+                  {children}
+                </main>
+            </Flex> */}
+            <RegisterPage />
+          </Theme>
+        </body>
     </html>
   )
 }
