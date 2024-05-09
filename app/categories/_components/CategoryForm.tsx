@@ -1,6 +1,6 @@
 'use client'
 
-import { categorySchema } from '@/app/api/categories/validationSchema'
+import { categorySchema } from '@/app/validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Category } from '@prisma/client'
 import { Box, Button, Card, Flex, Spinner, Text } from '@radix-ui/themes'
