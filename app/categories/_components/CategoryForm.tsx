@@ -13,7 +13,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { z } from 'zod'
 import DeleteButton from './DeleteButton'
-import Field from './Field'
+import Field from '../../components/Field'
 import paths from '@/app/paths'
 
 interface Props {

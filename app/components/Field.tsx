@@ -7,6 +7,7 @@ interface Props {
     label: string
     maxWidth?: string
     register?: any
+    type?: string
 }
 
 export default function Field({
@@ -15,7 +16,8 @@ export default function Field({
     error, 
     label, 
     maxWidth, 
-    register
+    register,
+    type
 }: Props) {
     return (
         <Flex
@@ -35,6 +37,7 @@ export default function Field({
                 defaultValue={defaultValue} 
                 disabled={disabled}
                 color={error ? 'red' : undefined}
+                type={type}
                 {...register}
             />
             {error && <Text size='2' color='red'>{error}</Text>}
