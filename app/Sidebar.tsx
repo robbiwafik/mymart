@@ -1,7 +1,7 @@
 'use client'
 
-import { DashboardIcon, HamburgerMenuIcon, TableIcon } from '@radix-ui/react-icons'
-import { Flex, Text } from '@radix-ui/themes'
+import { DashboardIcon, HamburgerMenuIcon, PersonIcon, TableIcon } from '@radix-ui/react-icons'
+import { Avatar, Box, Button, DataList, Flex, HoverCard, Separator, Text } from '@radix-ui/themes'
 import classNames from 'classnames'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -43,6 +43,9 @@ export default function Sidebar() {
                         <HamburgerMenuIcon />
                     </Flex>
                     <ul>
+                        <li className='mb-6'>
+                            <UserAvatarItem expand={expand} />
+                        </li>
                         {items.map(item => (
                             <li 
                                 className={classNames({
@@ -71,5 +74,53 @@ export default function Sidebar() {
                 </nav>
             </aside>
         </>
+    )
+}
+
+function UserAvatarItem({ expand }: { expand: boolean }) {
+    return (
+        <Flex justify='center'>
+            <HoverCard.Root>
+                <HoverCard.Trigger>
+                    <Box>
+                        <Avatar 
+                            src='/' 
+                            fallback={<PersonIcon className={classNames({'!w-9 !h-9': expand})} />} 
+                            className={classNames({
+                                '!w-20 !h-20': expand
+                            })}
+                            radius='full' 
+                        />
+                    </Box>
+                </HoverCard.Trigger>
+                <HoverCard.Content maxWidth='300px'>
+                    <DataList.Root>
+                        <DataList.Item>
+                            <DataList.Label>ID</DataList.Label>
+                            <DataList.Value>
+                                <Text>ID324234DF</Text>
+                            </DataList.Value>
+                        </DataList.Item>
+                        <DataList.Item>
+                            <DataList.Label>Name</DataList.Label>
+                            <DataList.Value>
+                                <Text>Jane Doe</Text>
+                            </DataList.Value>
+                        </DataList.Item>
+                        <DataList.Item>
+                            <DataList.Label>Status</DataList.Label>
+                            <DataList.Value>
+                                <Text>Cashier</Text>
+                            </DataList.Value>
+                        </DataList.Item>
+                    </DataList.Root>
+                    <Separator my='4' size='4' />
+                    <Flex gap='4'>
+                        <Button variant='soft'>Edit</Button>
+                        <Button variant='soft' color='red'>Log out</Button>
+                    </Flex>
+                </HoverCard.Content>
+            </HoverCard.Root>
+        </Flex>
     )
 }
