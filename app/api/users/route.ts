@@ -9,15 +9,25 @@ export async function POST(request: NextRequest) {
     const validation = registerUserSchema.safeParse(body)
     if (!validation.success)
         return NextResponse.json(validation.error.format(), { status: 400 })
+
+    const user = await prisma.user.findUnique({
+        where: {
+            username: body.username
+        }
+    })
+    if (user)
+        return NextResponse.json(
+            { error: 'A user with the given username already exists.'}, 
+            { status: 400 }
+        )
     
-    const newUser = await prisma.user.create({
+    const { password, ...newUser } = await prisma.user.create({
         data: {
             name: body.name,
             username: body.username,
             password: sha256(body.password).toString()
         }
     })
-    const { password, ...user } = newUser
 
-    return NextResponse.json({ user }, { status: 201 })
+    return NextResponse.json({ newUser }, { status: 201 })
 }
