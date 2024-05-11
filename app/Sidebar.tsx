@@ -21,6 +21,10 @@ export default function Sidebar() {
         { label: 'Categories', Icon: <TableIcon />, href: paths.CATEGORY_LIST}
     ]
 
+    const pathsToHideSidebar = [paths.LOGIN_PAGE, paths.REGISTER_PAGE]
+    if (pathsToHideSidebar.includes(currentPath))
+        return null
+
     return (
         <>
             <aside 

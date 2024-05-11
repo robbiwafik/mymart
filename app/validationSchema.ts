@@ -15,3 +15,10 @@ export const registerUserSchema = z.object({
             'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character'
         )
 })
+
+export const signInSchema = z.object({
+    username: z.string().min(6).max(20),
+    password: z.string()
+        .min(8)
+        .max(32)
+})
