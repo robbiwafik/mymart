@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google'
 import AuthProvider from './AuthProvider'
 import './globals.css'
 import Sidebar from './Sidebar'
+import QueryClientProvider from './QueryClientProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,16 +23,18 @@ export default async function RootLayout({
   return (
     <html lang='en'>
         <body className={inter.className}>
-          <AuthProvider>
-            <Theme>
-              <Flex>
-                  <Sidebar />
-                  <main className='py-4 px-6 w-full'>
-                    {children}
-                  </main>
-              </Flex>
-            </Theme>
-          </AuthProvider>
+          <QueryClientProvider>
+            <AuthProvider>
+              <Theme>
+                <Flex>
+                    <Sidebar />
+                    <main className='py-4 px-6 w-full'>
+                      {children}
+                    </main>
+                </Flex>
+              </Theme>
+            </AuthProvider>
+          </QueryClientProvider>
         </body>
     </html>
   )
