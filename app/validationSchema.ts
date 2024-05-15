@@ -22,3 +22,8 @@ export const signInSchema = z.object({
         .min(8)
         .max(32)
 })
+
+export const editUserSchema = z.object({
+    image: z.instanceof(File).optional().nullable(),
+    name: z.string().min(1).max(255)
+})
