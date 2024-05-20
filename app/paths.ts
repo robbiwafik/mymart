@@ -3,7 +3,7 @@ const categoryDetails = (id: number) => `/categories/${id}`
 const NEW_CATEGORY = '/categories/new'
 
 const LOGIN_PAGE = '/auth/signin'
-const REGISTER_PAGE = '/users/register'
+const REGISTER_PAGE = '/register'
 
 export default {
     CATEGORY_LIST,

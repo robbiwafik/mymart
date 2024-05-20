@@ -1,6 +1,7 @@
 'use client'
 
 import Field from '@/app/components/Field'
+import paths from '@/app/paths'
 import { signInSchema } from '@/app/validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
@@ -69,7 +70,7 @@ export default function SignInPage({ searchParams }: Props) {
                         />
                         <Text size='2' mt='5' as='p'>
                             {`Don't have an account? register `}
-                            <Link href='/users/register' passHref legacyBehavior> 
+                            <Link href={paths.REGISTER_PAGE} passHref legacyBehavior> 
                                 <RadixLink>here!</RadixLink>
                             </Link>
                         </Text>
