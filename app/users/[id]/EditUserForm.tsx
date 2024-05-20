@@ -98,10 +98,7 @@ export default function EditUserPage({ id }: Props) {
     
     return (
         <>
-            <Box maxWidth='800px'>
-                <Text as='p'mb='5' size='6' weight='medium'>
-                    User Details Form
-                </Text>
+            <Box className='w-full'>
                 <Card className='!px-8 !py-5'>
                     <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data'>
                         <UserImageInput 

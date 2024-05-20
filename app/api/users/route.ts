@@ -1,7 +1,7 @@
+import { hashPassword } from '@/app/utils/hash'
 import { registerUserSchema } from '@/app/validationSchema'
 import prisma from '@/prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
-import { SHA256 as sha256 } from 'crypto-js'
 
 export async function POST(request: NextRequest) {
     const body = await request.json()
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
         data: {
             name: body.name,
             username: body.username,
-            password: sha256(body.password).toString()
+            password: hashPassword(body.password).toString()
         }
     })
 

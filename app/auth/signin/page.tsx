@@ -7,7 +7,6 @@ import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { Box, Button, Callout, Card, Flex, Link as RadixLink, Spinner, Text } from '@radix-ui/themes'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -20,7 +19,6 @@ type Inputs = z.infer<typeof signInSchema>
 
 export default function SignInPage({ searchParams }: Props) {
     const [ isSubmitting, setIsSubmitting ] = useState(false)
-    const router = useRouter()
     const { 
         register,
         handleSubmit,
