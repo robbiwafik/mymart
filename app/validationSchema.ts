@@ -27,3 +27,14 @@ export const editUserSchema = z.object({
     image: z.instanceof(File).optional().nullable(),
     name: z.string().min(1).max(255)
 })
+
+export const changePasswordSchema = z.object({
+    currentPassword: z.string().min(8).max(32),
+    newPassword: z.string()
+        .min(8)
+        .max(32)
+        .regex(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+            'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character'
+        )
+})
