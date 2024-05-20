@@ -41,7 +41,7 @@ export default function EditUserPage({ id }: Props) {
     })
 
     useEffect(() => {
-        if (data && data.image) {
+        if (data) {
             setUser(data)
             setValue('name', data.name)
             setPreviewImage(data.image)
