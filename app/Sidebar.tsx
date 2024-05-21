@@ -1,12 +1,13 @@
 'use client'
 
 import { DashboardIcon, HamburgerMenuIcon, PersonIcon, TableIcon } from '@radix-ui/react-icons'
-import { Avatar, Box, Button, DataList, Flex, HoverCard, Separator, Text } from '@radix-ui/themes'
+import { Avatar, Box, Button, DataList, Flex, HoverCard, Separator, Skeleton, Text } from '@radix-ui/themes'
 import classNames from 'classnames'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ReactNode, useState } from 'react'
 import paths from './paths'
+import { useSession } from 'next-auth/react'
 
 export default function Sidebar() {
     const [ expand, setExpand ] = useState(true)
@@ -82,45 +83,57 @@ export default function Sidebar() {
 }
 
 function UserAvatarItem({ expand }: { expand: boolean }) {
+    const { status, data: session } = useSession()
+
+    if (session)
+        console.log('session', session)
+    
     return (
         <Flex justify='center'>
             <HoverCard.Root>
                 <HoverCard.Trigger>
                     <Box>
-                        <Avatar 
-                            src='/' 
-                            fallback={<PersonIcon className={classNames({'!w-9 !h-9': expand})} />} 
-                            className={classNames({
-                                '!w-20 !h-20': expand
-                            })}
-                            radius='full' 
-                        />
+                        <Skeleton loading={status === 'loading'}>
+                            <Avatar 
+                                src={session?.user.image || ''} 
+                                fallback={<PersonIcon className={classNames({'!w-9 !h-9': expand})} />} 
+                                className={classNames({
+                                    '!w-20 !h-20': expand
+                                })}
+                                radius='full'
+                            />
+                        </Skeleton>
                     </Box>
                 </HoverCard.Trigger>
-                <HoverCard.Content maxWidth='300px'>
+                <HoverCard.Content>
                     <DataList.Root>
+                        <DataList.Item>
+                            <Text size='4' weight='medium'>User Details</Text>
+                        </DataList.Item>
                         <DataList.Item>
                             <DataList.Label>ID</DataList.Label>
                             <DataList.Value>
-                                <Text>ID324234DF</Text>
+                                <Text>{session?.user.id}</Text>
                             </DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
                             <DataList.Label>Name</DataList.Label>
                             <DataList.Value>
-                                <Text>Jane Doe</Text>
+                                <Text>{session?.user.name}</Text>
                             </DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
-                            <DataList.Label>Status</DataList.Label>
+                            <DataList.Label>Username</DataList.Label>
                             <DataList.Value>
-                                <Text>Cashier</Text>
+                                <Text>{session?.user.username}</Text>
                             </DataList.Value>
                         </DataList.Item>
                     </DataList.Root>
                     <Separator my='4' size='4' />
-                    <Flex gap='4'>
-                        <Button variant='soft'>Edit</Button>
+                    <Flex gap='4' justify='between'>
+                        <Link href={`/users/${session?.user.id}`}> {/*Refactor */}
+                            <Button variant='soft'>Edit</Button>
+                        </Link>
                         <Button variant='soft' color='red'>Log out</Button>
                     </Flex>
                 </HoverCard.Content>

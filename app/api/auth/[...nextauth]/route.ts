@@ -1,7 +1,7 @@
 import paths from '@/app/paths'
+import { hashPassword } from '@/app/utils/hash'
 import prisma from '@/prisma/client'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import { SHA256 as sha256 } from 'crypto-js'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
@@ -27,7 +27,7 @@ export const apiAuthProvider: NextAuthOptions = {
                 if (!user)
                     return null
 
-                return sha256(credentials.password).toString() === user.password ?
+                return hashPassword(credentials.password).toString() === user.password ?
                     user : null
             }
         }),
@@ -35,6 +35,32 @@ export const apiAuthProvider: NextAuthOptions = {
     session: { strategy: 'jwt' },
     pages: {
         signIn: paths.LOGIN_PAGE
+    },
+    callbacks: {
+        async jwt({ token, trigger, user, session }) {
+            if (user) {
+                token.id = user.id
+                token.username = user.username
+            }
+
+            if (trigger === 'update') {
+                if (session.name)
+                    token.name = session.name
+
+                if (session.image)
+                    token.picture = session.image
+            }
+
+            return token
+        },
+        async session({ session, token }) {
+            if (session.user) {
+                session.user.id = token.id
+                session.user.username = token.username
+            }
+
+            return session
+        }
     }
 }
 
