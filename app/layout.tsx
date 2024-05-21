@@ -2,10 +2,8 @@ import { Flex, Theme } from '@radix-ui/themes'
 import '@radix-ui/themes/styles.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import AuthProvider from './AuthProvider'
-import UserProvider from './context/providers/UserProvider'
+import { AuthProvider, QueryClientProvider, UserProvider } from './context/providers'
 import './globals.css'
-import QueryClientProvider from './QueryClientProvider'
 import Sidebar from './Sidebar'
 
 const inter = Inter({ subsets: ['latin'] })
