@@ -6,8 +6,8 @@ import classNames from 'classnames'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ReactNode, useState } from 'react'
+import useUserContext from './hooks'
 import paths from './paths'
-import { useSession } from 'next-auth/react'
 
 export default function Sidebar() {
     const [ expand, setExpand ] = useState(true)
@@ -83,19 +83,16 @@ export default function Sidebar() {
 }
 
 function UserAvatarItem({ expand }: { expand: boolean }) {
-    const { status, data: session } = useSession()
-
-    if (session)
-        console.log('session', session)
+    const context = useUserContext()
     
     return (
         <Flex justify='center'>
             <HoverCard.Root>
                 <HoverCard.Trigger>
                     <Box>
-                        <Skeleton loading={status === 'loading'}>
+                        <Skeleton loading={!context.user}>
                             <Avatar 
-                                src={session?.user.image || ''} 
+                                src={context.user?.image || ''} 
                                 fallback={<PersonIcon className={classNames({'!w-9 !h-9': expand})} />} 
                                 className={classNames({
                                     '!w-20 !h-20': expand
@@ -113,25 +110,25 @@ function UserAvatarItem({ expand }: { expand: boolean }) {
                         <DataList.Item>
                             <DataList.Label>ID</DataList.Label>
                             <DataList.Value>
-                                <Text>{session?.user.id}</Text>
+                                <Text>{context.user?.id}</Text>
                             </DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
                             <DataList.Label>Name</DataList.Label>
                             <DataList.Value>
-                                <Text>{session?.user.name}</Text>
+                                <Text>{context.user?.name}</Text>
                             </DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
                             <DataList.Label>Username</DataList.Label>
                             <DataList.Value>
-                                <Text>{session?.user.username}</Text>
+                                <Text>{context.user?.username}</Text>
                             </DataList.Value>
                         </DataList.Item>
                     </DataList.Root>
                     <Separator my='4' size='4' />
                     <Flex gap='4' justify='between'>
-                        <Link href={`/users/${session?.user.id}`}> {/*Refactor */}
+                        <Link href={`/users/${context?.user?.id}`}> {/*Refactor */}
                             <Button variant='soft'>Edit</Button>
                         </Link>
                         <Button variant='soft' color='red'>Log out</Button>

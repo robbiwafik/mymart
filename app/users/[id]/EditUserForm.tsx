@@ -1,9 +1,10 @@
 'use client'
 
 import Field from '@/app/components/Field'
+import useUserContext from '@/app/hooks'
 import { editUserSchema } from '@/app/validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, Button, Card, Flex, Spinner, Text } from '@radix-ui/themes'
+import { Box, Button, Card, Flex, Spinner } from '@radix-ui/themes'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { notFound, useRouter } from 'next/navigation'
@@ -13,7 +14,6 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { z } from 'zod'
 import UserImageInput from './UserImageInput'
-import { useSession } from 'next-auth/react'
 
 interface Props {
     id: string
@@ -22,7 +22,7 @@ interface Props {
 type Inputs = z.infer<typeof editUserSchema>
 
 export default function EditUserPage({ id }: Props) {
-    const { update } = useSession()
+    const { setUser: setUserContext } = useUserContext()
     const { data, error, isFetched, isLoading } = useQuery({
         queryKey: ['user'],
         queryFn: () => axios.get('/api/users/' + id).then(res => res.data)
@@ -78,10 +78,7 @@ export default function EditUserPage({ id }: Props) {
 
             setUser(updatedUser)
             setPreviewImage(updatedUser.image)
-            update({
-                name: updatedUser.name,
-                image: updatedUser.image
-            })
+            setUserContext(updatedUser)
             toast.success('Updated successfully')
         }
         catch {

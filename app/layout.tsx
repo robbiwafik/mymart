@@ -3,9 +3,10 @@ import '@radix-ui/themes/styles.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import AuthProvider from './AuthProvider'
+import UserProvider from './context/providers/UserProvider'
 import './globals.css'
-import Sidebar from './Sidebar'
 import QueryClientProvider from './QueryClientProvider'
+import Sidebar from './Sidebar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,14 +26,16 @@ export default async function RootLayout({
         <body className={inter.className}>
           <QueryClientProvider>
             <AuthProvider>
-              <Theme>
-                <Flex>
-                    <Sidebar />
-                    <main className='py-4 px-6 w-full'>
-                      {children}
-                    </main>
-                </Flex>
-              </Theme>
+              <UserProvider>
+                <Theme>
+                  <Flex>
+                      <Sidebar />
+                      <main className='py-4 px-6 w-full'>
+                        {children}
+                      </main>
+                  </Flex>
+                </Theme>
+              </UserProvider>
             </AuthProvider>
           </QueryClientProvider>
         </body>
