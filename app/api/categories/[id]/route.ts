@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { categorySchema } from '../validationSchema'
 import prisma from '@/prisma/client'
+import { categorySchema } from '@/app/validationSchema'
 
 interface Props {
     params: { id: string }

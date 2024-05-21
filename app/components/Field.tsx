@@ -1,12 +1,14 @@
-import { Flex, Text, TextField } from '@radix-ui/themes'
+import { Flex, Skeleton, Text, TextField } from '@radix-ui/themes'
 
 interface Props {
     disabled?: boolean
     defaultValue?: string
     error?: string
     label: string
+    loading?: boolean
     maxWidth?: string
     register?: any
+    type?: string
 }
 
 export default function Field({
@@ -14,8 +16,10 @@ export default function Field({
     disabled, 
     error, 
     label, 
+    loading = false,
     maxWidth, 
-    register
+    register,
+    type,
 }: Props) {
     return (
         <Flex
@@ -31,12 +35,15 @@ export default function Field({
             >
                 {label}
             </Text>
-            <TextField.Root 
-                defaultValue={defaultValue} 
-                disabled={disabled}
-                color={error ? 'red' : undefined}
-                {...register}
-            />
+            <Skeleton loading={loading}>
+                <TextField.Root 
+                    defaultValue={defaultValue} 
+                    disabled={disabled}
+                    color={error ? 'red' : undefined}
+                    type={type}
+                    {...register}
+                />
+            </Skeleton>
             {error && <Text size='2' color='red'>{error}</Text>}
         </Flex>
     )

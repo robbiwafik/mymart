@@ -1,12 +1,13 @@
 'use client'
 
-import { DashboardIcon, HamburgerMenuIcon, TableIcon } from '@radix-ui/react-icons'
-import { Flex, Text } from '@radix-ui/themes'
+import { DashboardIcon, HamburgerMenuIcon, PersonIcon, TableIcon } from '@radix-ui/react-icons'
+import { Avatar, Box, Button, DataList, Flex, HoverCard, Separator, Skeleton, Text } from '@radix-ui/themes'
 import classNames from 'classnames'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ReactNode, useState } from 'react'
 import paths from './paths'
+import { useSession } from 'next-auth/react'
 
 export default function Sidebar() {
     const [ expand, setExpand ] = useState(true)
@@ -20,6 +21,10 @@ export default function Sidebar() {
         { label: 'Dashboard', Icon: <DashboardIcon />, href: '/'},
         { label: 'Categories', Icon: <TableIcon />, href: paths.CATEGORY_LIST}
     ]
+
+    const pathsToHideSidebar = [paths.LOGIN_PAGE, paths.REGISTER_PAGE]
+    if (pathsToHideSidebar.includes(currentPath))
+        return null
 
     return (
         <>
@@ -43,6 +48,9 @@ export default function Sidebar() {
                         <HamburgerMenuIcon />
                     </Flex>
                     <ul>
+                        <li className='mb-6'>
+                            <UserAvatarItem expand={expand} />
+                        </li>
                         {items.map(item => (
                             <li 
                                 className={classNames({
@@ -71,5 +79,65 @@ export default function Sidebar() {
                 </nav>
             </aside>
         </>
+    )
+}
+
+function UserAvatarItem({ expand }: { expand: boolean }) {
+    const { status, data: session } = useSession()
+
+    if (session)
+        console.log('session', session)
+    
+    return (
+        <Flex justify='center'>
+            <HoverCard.Root>
+                <HoverCard.Trigger>
+                    <Box>
+                        <Skeleton loading={status === 'loading'}>
+                            <Avatar 
+                                src={session?.user.image || ''} 
+                                fallback={<PersonIcon className={classNames({'!w-9 !h-9': expand})} />} 
+                                className={classNames({
+                                    '!w-20 !h-20': expand
+                                })}
+                                radius='full'
+                            />
+                        </Skeleton>
+                    </Box>
+                </HoverCard.Trigger>
+                <HoverCard.Content>
+                    <DataList.Root>
+                        <DataList.Item>
+                            <Text size='4' weight='medium'>User Details</Text>
+                        </DataList.Item>
+                        <DataList.Item>
+                            <DataList.Label>ID</DataList.Label>
+                            <DataList.Value>
+                                <Text>{session?.user.id}</Text>
+                            </DataList.Value>
+                        </DataList.Item>
+                        <DataList.Item>
+                            <DataList.Label>Name</DataList.Label>
+                            <DataList.Value>
+                                <Text>{session?.user.name}</Text>
+                            </DataList.Value>
+                        </DataList.Item>
+                        <DataList.Item>
+                            <DataList.Label>Username</DataList.Label>
+                            <DataList.Value>
+                                <Text>{session?.user.username}</Text>
+                            </DataList.Value>
+                        </DataList.Item>
+                    </DataList.Root>
+                    <Separator my='4' size='4' />
+                    <Flex gap='4' justify='between'>
+                        <Link href={`/users/${session?.user.id}`}> {/*Refactor */}
+                            <Button variant='soft'>Edit</Button>
+                        </Link>
+                        <Button variant='soft' color='red'>Log out</Button>
+                    </Flex>
+                </HoverCard.Content>
+            </HoverCard.Root>
+        </Flex>
     )
 }

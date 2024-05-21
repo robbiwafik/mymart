@@ -1,6 +1,6 @@
 'use client'
 
-import { categorySchema } from '@/app/api/categories/validationSchema'
+import { categorySchema } from '@/app/validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Category } from '@prisma/client'
 import { Box, Button, Card, Flex, Spinner, Text } from '@radix-ui/themes'
@@ -13,7 +13,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { z } from 'zod'
 import DeleteButton from './DeleteButton'
-import Field from './Field'
+import Field from '../../components/Field'
 import paths from '@/app/paths'
 
 interface Props {
