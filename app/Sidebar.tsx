@@ -1,6 +1,6 @@
 'use client'
 
-import { DashboardIcon, HamburgerMenuIcon, PersonIcon, TableIcon } from '@radix-ui/react-icons'
+import { ArchiveIcon, DashboardIcon, HamburgerMenuIcon, PersonIcon, TableIcon } from '@radix-ui/react-icons'
 import { Avatar, Box, Button, DataList, Flex, HoverCard, Separator, Skeleton, Text } from '@radix-ui/themes'
 import classNames from 'classnames'
 import Link from 'next/link'
@@ -19,7 +19,8 @@ export default function Sidebar() {
         href: string
     }[] = [
         { label: 'Dashboard', Icon: <DashboardIcon />, href: '/'},
-        { label: 'Categories', Icon: <TableIcon />, href: paths.CATEGORY_LIST}
+        { label: 'Categories', Icon: <TableIcon />, href: paths.CATEGORY_LIST},
+        { label: 'Products', Icon: <ArchiveIcon />, href: paths.PRODUCT_LIST}
     ]
 
     const pathsToHideSidebar = [paths.LOGIN_PAGE, paths.REGISTER_PAGE]

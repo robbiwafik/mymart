@@ -1,20 +1,20 @@
 'use client'
 
-import paths from '@/app/paths'
 import { ChevronLeftIcon, ChevronRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons'
 import { Button, Flex, Text } from '@radix-ui/themes'
-import { notFound, useRouter, useSearchParams } from 'next/navigation'
+import { notFound, usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 interface Props {
-    categoryCount: number
+    itemCount: number
     currentPage: number
     pageSize: number
 }
 
-export default function Pagination({ categoryCount, currentPage, pageSize }: Props ) {
+export default function Pagination({ itemCount, currentPage, pageSize }: Props ) {
     const router = useRouter()
+    const currentPath = usePathname()
     const searchParams = useSearchParams()
-    const pageCount = Math.ceil(categoryCount / pageSize)
+    const pageCount = Math.ceil(itemCount / pageSize)
 
     if (pageCount > 0 && currentPage > pageCount)
         notFound()
@@ -22,7 +22,7 @@ export default function Pagination({ categoryCount, currentPage, pageSize }: Pro
     const handleMovePage = (page: number) => {
         const urlSearchParams = new URLSearchParams(searchParams)
         urlSearchParams.set('page', page.toString())
-        router.push(`${paths.CATEGORY_LIST}?${urlSearchParams.toString()}`)
+        router.push(`${currentPath}?${urlSearchParams.toString()}`)
     }
 
     if (pageCount <= 1)

@@ -1,6 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server'
 import { categorySchema } from '@/app/validationSchema'
 import prisma from '@/prisma/client'
+import { NextRequest, NextResponse } from 'next/server'
+
+export async function GET(request: NextRequest) {
+    const categories = await prisma.category.findMany()
+
+    return NextResponse.json(categories)
+}
 
 export async function POST(request: NextRequest) {
     const body = await request.json()

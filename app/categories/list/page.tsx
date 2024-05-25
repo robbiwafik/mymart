@@ -1,11 +1,11 @@
+import Pagination from '@/app/components/Pagination'
+import SearchBox from '@/app/components/SearchBox'
 import paths from '@/app/paths'
 import prisma from '@/prisma/client'
 import { Prisma } from '@prisma/client'
 import { Box, Button, Flex } from '@radix-ui/themes'
 import Link from 'next/link'
 import CategoryTable from './CategoryTable'
-import Pagination from './Pagination'
-import SearchBox from './SearchBox'
 
 interface Props {
     searchParams: { 
@@ -43,7 +43,7 @@ export default async function CategoriesPage({ searchParams }: Props) {
                 mb='4' gap='4' 
                 justify='between' align='center'
             >
-                <SearchBox />
+                <SearchBox placeholder='Search category...' />
                 <Button>
                     <Link href={paths.NEW_CATEGORY}>New category</Link>
                 </Button>
@@ -55,7 +55,7 @@ export default async function CategoriesPage({ searchParams }: Props) {
                 sortedBy={searchParams.sort}
             />
             <Pagination 
-                categoryCount={categoryCount}
+                itemCount={categoryCount}
                 currentPage={currentPage} 
                 pageSize={pageSize}
             />

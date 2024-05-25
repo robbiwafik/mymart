@@ -1,32 +1,40 @@
 'use client'
 
-import paths from '@/app/paths'
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { Box, Button, Flex, TextField } from '@radix-ui/themes'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
-export default function SearchBox() {
+interface Props {
+    placeholder: string
+}
+
+export default function SearchBox({ placeholder }: Props) {
     const router = useRouter()
+    const currentPath = usePathname()
+    const searchParams = useSearchParams()
     const [ searchQuery, setSearchQuery ] = useState('')
 
     const handleSearch = () => {
-        const urlSearchParams = new URLSearchParams()
-        urlSearchParams.append('search', searchQuery)
+        const urlSearchParams = new URLSearchParams(searchParams)
+        urlSearchParams.set('search', searchQuery)
         const queryParams = searchQuery ? '?' + urlSearchParams.toString() : ''
-        router.push(paths.CATEGORY_LIST + queryParams)
+        router.push(currentPath + queryParams)
     }
 
     const handleClear = () => {
         setSearchQuery('')
-        router.push(paths.CATEGORY_LIST)
+        const urlSearchParams = new URLSearchParams(searchParams)
+        urlSearchParams.delete('search')
+        const queryParams = searchQuery ? '?' + urlSearchParams.toString() : ''
+        router.push(currentPath + queryParams)
     }
 
     return (
         <Flex gap='1' width='100%'>
             <Box width='100%'>
                 <TextField.Root 
-                    placeholder='Search category...' 
+                    placeholder={placeholder} 
                     onChange={({ target: input }) => setSearchQuery(input.value)}
                     value={searchQuery}
                 >
