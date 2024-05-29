@@ -50,7 +50,7 @@ export default function EditUserPage({ id }: Props) {
         }
 
         setValue('image', null)
-    }, [isFetched])
+    }, [isFetched, data, setValue])
 
     const handleChangeImage = ({ target }: ChangeEvent<HTMLInputElement>) => {
         if (target.files) {

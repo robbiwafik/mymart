@@ -19,7 +19,7 @@ export default function UserProvider({ children }: PropsWithChildren) {
         if (status === 'authenticated')
             fetchData()
 
-    }, [status])
+    }, [status, session?.user.id])
     
     return (
         <UserContext.Provider value={{ user, setUser }}>

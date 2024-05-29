@@ -8,7 +8,8 @@ const NEW_PRODUCT = '/products/new'
 const LOGIN_PAGE = '/auth/signin'
 const REGISTER_PAGE = '/register'
 
-export default {
+// ESlint rule prefers named exports over anonymous default exports
+const routes = {
     CATEGORY_LIST,
     categoryDetails,
     NEW_CATEGORY,
@@ -17,3 +18,4 @@ export default {
     LOGIN_PAGE,
     REGISTER_PAGE
 }
+export default routes
