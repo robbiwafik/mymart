@@ -1,7 +1,7 @@
 'use client'
 
 import { ChevronDownIcon } from '@radix-ui/react-icons'
-import { Box, Button, Popover, Table, Text, TextField } from '@radix-ui/themes'
+import { Button, Popover, ScrollArea, Table, Text, TextField } from '@radix-ui/themes'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { ChangeEvent, useState } from 'react'
 
@@ -11,11 +11,11 @@ interface Props {
 }
 
 export default function PopoverFilter({ data, placeholder }: Props) {
-    const [ selectedItem, setSelectedItem ] = useState('')
-    const [ search, setSearch ] = useState('')
     const router = useRouter()
     const currentPath = usePathname()
     const searchParams = useSearchParams()
+    const [ selectedItem, setSelectedItem ] = useState('')
+    const [ search, setSearch ] = useState('')
 
     const handleSelectItem = (item: string) => {
         const urlSearchParams = new URLSearchParams(searchParams)
@@ -42,7 +42,7 @@ export default function PopoverFilter({ data, placeholder }: Props) {
     return (
         <Popover.Root>
             <Popover.Trigger >
-                <Button variant='outline'>
+                <Button variant='outline' onClick={() => setSearch('')}>
                     {selectedItem || placeholder} <ChevronDownIcon />
                 </Button>
             </Popover.Trigger>
@@ -50,11 +50,17 @@ export default function PopoverFilter({ data, placeholder }: Props) {
                 <TextField.Root onChange={handleSearchItem} />
                 {filteredData.length > 0 && 
                     <>
-                        <Box mt='4' maxHeight='200px' className='overflow-y-scroll'>
+                        <ScrollArea
+                            className='pr-8' 
+                            mt='4' 
+                            scrollbars='vertical' 
+                            style={{ height: 180 }} 
+                            type='always' 
+                        >
                             <Table.Root>
                                 <Table.Body>
                                     {filteredData.map(item => (
-                                        <Table.Row>
+                                        <Table.Row key={item}>
                                             <Popover.Close onClick={handleClosePopover}>
                                                 <Table.Cell 
                                                     className='hover:text-[var(--accent-9)] hover:cursor-pointer'
@@ -67,9 +73,9 @@ export default function PopoverFilter({ data, placeholder }: Props) {
                                     ))}
                                 </Table.Body>
                             </Table.Root>
-                        </Box>
+                        </ScrollArea>
                         <Popover.Close onClick={handleClosePopover}>
-                            <Button 
+                            <Button
                                 color='gray' 
                                 mt='4' 
                                 onClick={handleClear}
@@ -81,9 +87,11 @@ export default function PopoverFilter({ data, placeholder }: Props) {
                     </>
                 }
                 {filteredData.length === 0 &&
-                    <Text 
-                        as='p' mt='4' 
-                        size='2' className='text-slate-400 text-center'
+                    <Text
+                        as='p' 
+                        className='text-slate-400 text-center'
+                        mt='4' 
+                        size='2' 
                     >
                         Empty data.
                     </Text>

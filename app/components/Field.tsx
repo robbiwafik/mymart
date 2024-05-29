@@ -8,6 +8,7 @@ interface Props {
     loading?: boolean
     maxWidth?: string
     register?: any
+    step?: any
     type?: string
 }
 
@@ -19,7 +20,8 @@ export default function Field({
     loading = false,
     maxWidth, 
     register,
-    type,
+    step,
+    type
 }: Props) {
     return (
         <Flex
@@ -41,6 +43,7 @@ export default function Field({
                     disabled={disabled}
                     color={error ? 'red' : undefined}
                     type={type}
+                    step={step}
                     {...register}
                 />
             </Skeleton>

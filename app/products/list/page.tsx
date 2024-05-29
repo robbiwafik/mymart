@@ -1,6 +1,8 @@
 import SearchBox from '@/app/components/SearchBox'
+import paths from '@/app/paths'
 import prisma from '@/prisma/client'
-import { Flex } from '@radix-ui/themes'
+import { Button, Flex } from '@radix-ui/themes'
+import Link from 'next/link'
 import PopoverCategoryFilter from './PopoverCategoryFilter'
 import ProductTable from './ProductTable'
 
@@ -27,6 +29,9 @@ export default async function ProductListPage({ searchParams }: Props) {
         },
         include: {
             category: true
+        },
+        orderBy: {
+            updatedAt: 'desc'
         }
     })
 
@@ -35,6 +40,9 @@ export default async function ProductListPage({ searchParams }: Props) {
             <Flex gap='4'>
                 <PopoverCategoryFilter />
                 <SearchBox placeholder='Search product...' />
+                <Button>
+                    <Link href={paths.NEW_PRODUCT}>New product</Link>
+                </Button>
             </Flex>
             <ProductTable 
                 products={products} 
@@ -44,3 +52,5 @@ export default async function ProductListPage({ searchParams }: Props) {
         </Flex>
     )
 }
+
+export const dynamic = 'force-dynamic'

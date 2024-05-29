@@ -11,15 +11,15 @@ export default function UserProvider({ children }: PropsWithChildren) {
     const [ user, setUser ] = useState<User>()
 
     useEffect(() => {
+        const fetchData = async () => {
+            const { data } = await axios.get(`/api/users/${session?.user.id}`)
+            setUser(data)
+        }
+
         if (status === 'authenticated')
             fetchData()
 
     }, [status])
-
-    const fetchData = async () => {
-        const { data } = await axios.get(`/api/users/${session?.user.id}`)
-        setUser(data)
-    }
     
     return (
         <UserContext.Provider value={{ user, setUser }}>

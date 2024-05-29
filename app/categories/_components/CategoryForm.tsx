@@ -1,9 +1,12 @@
 'use client'
 
+import FormCard from '@/app/components/FormCard'
+import PageTitle from '@/app/components/PageTitle'
+import paths from '@/app/paths'
 import { categorySchema } from '@/app/validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Category } from '@prisma/client'
-import { Box, Button, Card, Flex, Spinner, Text } from '@radix-ui/themes'
+import { Button, Flex, Spinner } from '@radix-ui/themes'
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -12,9 +15,8 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { z } from 'zod'
-import DeleteButton from './DeleteButton'
 import Field from '../../components/Field'
-import paths from '@/app/paths'
+import DeleteButton from './DeleteButton'
 
 interface Props {
     category?: Category
@@ -46,11 +48,9 @@ export default function CategoryForm({ category }: Props) {
     }
 
     return (
-        <Box maxWidth='800px'>
-            <Text as='p'mb='5'size='6'weight='medium'>
-                {category ? 'Category Details' : 'Add New Category'}
-            </Text>
-            <Card className='!px-8 !py-5'>
+        <Flex direction='column' gap='5'>
+            <PageTitle value={category ? 'Category Details' : 'New Category'} />
+            <FormCard maxWidth='800px'>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {category && <Field 
                         defaultValue={category.id.toString()}
@@ -90,8 +90,8 @@ export default function CategoryForm({ category }: Props) {
                         </Flex>
                     </Flex>
                 </form>
-            </Card>
+            </FormCard>
             <ToastContainer />
-        </Box>
+        </Flex>
     )
 }
