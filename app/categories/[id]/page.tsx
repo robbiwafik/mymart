@@ -1,4 +1,6 @@
+import { PageTitle } from '@/app/components'
 import prisma from '@/prisma/client'
+import { Flex } from '@radix-ui/themes'
 import { notFound } from 'next/navigation'
 import CategoryForm from '../_components/CategoryForm'
 
@@ -15,6 +17,9 @@ export default async function CategoryDetailsPage({ params }: Props) {
         notFound()
 
     return (
-        <CategoryForm category={category} />
+        <Flex direction='column' gap='5'>
+            <PageTitle value={'Category Details'} />
+            <CategoryForm category={category} />
+        </Flex>
     )
 }

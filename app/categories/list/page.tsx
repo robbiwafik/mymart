@@ -1,9 +1,8 @@
-import Pagination from '@/app/components/Pagination'
-import SearchBox from '@/app/components/SearchBox'
+import { Pagination, SearchBox } from '@/app/components'
 import paths from '@/app/paths'
 import prisma from '@/prisma/client'
 import { Prisma } from '@prisma/client'
-import { Box, Button, Flex } from '@radix-ui/themes'
+import { Button, Flex } from '@radix-ui/themes'
 import Link from 'next/link'
 import CategoryTable from './CategoryTable'
 
@@ -24,6 +23,7 @@ export default async function CategoriesPage({ searchParams }: Props) {
             contains: searchParams.search
         }
     }
+
     const orderByOption: Prisma.CategoryOrderByWithRelationInput = searchParams.sort ? 
         { [searchParams.sort ]: 'asc'} : { createdAt: 'desc' }
 
@@ -33,15 +33,18 @@ export default async function CategoriesPage({ searchParams }: Props) {
         where: whereOption,
         orderBy: orderByOption
     })
+
     const categoryCount = await prisma.category.count({
         where: whereOption
     })
         
     return (
-        <Box>
+        <Flex direction='column' gap='4'>
             <Flex 
-                mb='4' gap='4' 
-                justify='between' align='center'
+                align='center'
+                gap='4' 
+                justify='between' 
+                mb='4' 
             >
                 <SearchBox placeholder='Search category...' />
                 <Button>
@@ -55,11 +58,11 @@ export default async function CategoriesPage({ searchParams }: Props) {
                 sortedBy={searchParams.sort}
             />
             <Pagination 
-                itemCount={categoryCount}
                 currentPage={currentPage} 
+                itemCount={categoryCount}
                 pageSize={pageSize}
             />
-        </Box>
+        </Flex>
     )
 }
 

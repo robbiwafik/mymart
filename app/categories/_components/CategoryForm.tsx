@@ -1,7 +1,6 @@
 'use client'
 
-import FormCard from '@/app/components/FormCard'
-import PageTitle from '@/app/components/PageTitle'
+import { DeleteButton, Field, FormCard } from '@/app/components'
 import paths from '@/app/paths'
 import { categorySchema } from '@/app/validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -15,9 +14,6 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { z } from 'zod'
-import Field from '../../components/Field'
-import { DeleteButton } from '@/app/components'
-
 
 interface Props {
     category?: Category
@@ -30,7 +26,11 @@ export default function CategoryForm({ category }: Props) {
     const [ isSubmitting, setSubmitting ] = useState(false)
     const [ isDeleting, setIsDeleting ] = useState(false)
 
-    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
+    const { 
+        formState: { errors },
+        handleSubmit,
+        register, 
+    } = useForm<Inputs>({
         resolver: zodResolver(categorySchema)
     }) 
 
@@ -64,34 +64,36 @@ export default function CategoryForm({ category }: Props) {
     }
 
     return (
-        <Flex direction='column' gap='5'>
-            <PageTitle value={category ? 'Category Details' : 'New Category'} />
+        <>
             <FormCard maxWidth='800px'>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    {category && <Field 
+                    {category && 
+                    <Field
                         defaultValue={category.id.toString()}
+                        disabled
                         label='Id' 
                         maxWidth='250px' 
-                        disabled
                     />}
                     <Field 
+                        defaultValue={category?.name}
                         error={errors.name?.message} 
                         label='Name' 
                         maxWidth='500px' 
                         register={register('name')} 
-                        defaultValue={category?.name}
                     />
-                    {category && <Field 
+                    {category && 
+                    <Field
                         defaultValue={category.createdAt.toDateString()}
+                        disabled
                         label='Created at' 
                         maxWidth='500px' 
-                        disabled
                     />}
-                    {category && <Field 
+                    {category && 
+                    <Field 
                         defaultValue={category.updatedAt.toDateString()}
+                        disabled
                         label='Updated at' 
                         maxWidth='500px' 
-                        disabled
                     />}
                     <Flex justify={category ? 'between' : 'end'}>
                         {category && 
@@ -116,6 +118,6 @@ export default function CategoryForm({ category }: Props) {
                 </form>
             </FormCard>
             <ToastContainer />
-        </Flex>
+        </>
     )
 }
