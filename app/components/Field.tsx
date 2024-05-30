@@ -2,7 +2,7 @@ import { Flex, Skeleton, Text, TextField } from '@radix-ui/themes'
 
 interface Props {
     disabled?: boolean
-    defaultValue?: string
+    defaultValue?: any
     error?: string
     label: string
     loading?: boolean

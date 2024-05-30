@@ -1,8 +1,10 @@
 import EmptyTable from '@/app/components/EmptyTable'
 import Pagination from '@/app/components/Pagination'
 import { Category, Product as ProductModel } from '@prisma/client'
-import { Table } from '@radix-ui/themes'
+import { Table, Link as RadixLink } from '@radix-ui/themes'
 import _ from 'lodash'
+import Link from 'next/link'
+import paths from '@/app/paths'
 
 interface Product extends ProductModel {
     category: Category
@@ -37,7 +39,13 @@ export default async function ProductTable({ products, currentPage, pageSize }: 
                     {paginatedProducts.map((product, index) => (
                         <Table.Row key={product.id}>
                             <Table.Cell>{(currentPage - 1) * pageSize + index + 1}</Table.Cell>
-                            <Table.RowHeaderCell>{product.name}</Table.RowHeaderCell>
+                            <Table.RowHeaderCell>
+                                <Link href={paths.productDetails(product.id)} passHref legacyBehavior>
+                                    <RadixLink>
+                                        {product.name}
+                                    </RadixLink>
+                                </Link>
+                            </Table.RowHeaderCell>
                             <Table.Cell>$ {product.price}</Table.Cell>
                             <Table.Cell>{product.category.name}</Table.Cell>
                         </Table.Row>

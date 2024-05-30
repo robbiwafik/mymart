@@ -9,7 +9,7 @@ import {
 import { useState } from 'react'
 
 interface Props {
-    defaultValue?: string
+    defaultValue?: any
     error?: string
     label: string
     loading?: boolean
@@ -49,7 +49,7 @@ export default function SelectionField({
     ))
     
     return (
-        <Flex direction='column' gap='2' align='start'>
+        <Flex direction='column' gap='2' align='start' mb='4'>
             <Text as='label' size='2' color='gray'>{label}</Text>
             <Popover.Root>
                     <Skeleton loading={loading}>

@@ -1,3 +1,4 @@
+export { default as DeleteButton } from './DeleteButton'
 export { default as EmptyTable } from './EmptyTable'
 export { default as Field } from './Field'
 export { default as FormCard } from './FormCard'

@@ -16,7 +16,8 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { z } from 'zod'
 import Field from '../../components/Field'
-import DeleteButton from './DeleteButton'
+import { DeleteButton } from '@/app/components'
+
 
 interface Props {
     category?: Category
@@ -25,11 +26,26 @@ interface Props {
 type Inputs = z.infer<typeof categorySchema>
 
 export default function CategoryForm({ category }: Props) {
-    const [ isSubmitting, setSubmitting ] = useState(false)
     const router = useRouter()
+    const [ isSubmitting, setSubmitting ] = useState(false)
+    const [ isDeleting, setIsDeleting ] = useState(false)
+
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
         resolver: zodResolver(categorySchema)
     }) 
+
+    const handleDelete = async () => {
+        try {
+            setIsDeleting(true)
+            await axios.delete(`/api/categories/${category?.id}`)
+            router.push(paths.CATEGORY_LIST)
+            router.refresh()
+        }
+        catch {
+            toast.error('Unexpected error ocurred.')
+            setIsDeleting(false)
+        }
+    }
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         try {
@@ -78,7 +94,15 @@ export default function CategoryForm({ category }: Props) {
                         disabled
                     />}
                     <Flex justify={category ? 'between' : 'end'}>
-                        {category && <DeleteButton categoryId={category.id} />}
+                        {category && 
+                            <DeleteButton 
+                                alertTitle='Delete category'
+                                alertDescription='Are you sure you want to delete this item? This action cannot be undone.'
+                                title='Delete'
+                                isDeleting={isDeleting}
+                                onDelete={handleDelete}
+                            />
+                        }
                         <Flex gap='4' justify='end'>
                             <Button variant='soft' color='gray'>
                                 <Link href={paths.CATEGORY_LIST}>Go back</Link>

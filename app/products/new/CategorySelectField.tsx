@@ -7,10 +7,11 @@ import axios from 'axios'
 
 interface Props {
     error?: string
+    defaultValue?: number
     onChange: (value: any) => void
 }
 
-export default function CategorySelectField({ error, onChange }: Props) {
+export default function CategorySelectField({ error, defaultValue, onChange }: Props) {
     const { data: categories, isLoading } = useQuery({
         queryKey: ['product-categories'],
         queryFn: () => axios.get<Category[]>('/api/categories')
@@ -25,6 +26,7 @@ export default function CategorySelectField({ error, onChange }: Props) {
     
     return (
         <SelectField 
+            defaultValue={defaultValue}
             error={error}
             label='Category'
             loading={isLoading}

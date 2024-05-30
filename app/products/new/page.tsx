@@ -1,6 +1,6 @@
 import { PageTitle } from '@/app/components'
 import { Flex } from '@radix-ui/themes'
-import ProductForm from './ProductForm'
+import ProductForm from '../_components/ProductForm'
 
 export default function NewProductPage() {
     return (
