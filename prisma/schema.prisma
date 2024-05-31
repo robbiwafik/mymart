@@ -22,14 +22,31 @@ model Category {
 }
 
 model Product {
-  id         String   @id @default(cuid())
+  id         String        @id @default(cuid())
   name       String
   price      Float
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
   categoryId Int
+  items      ProductItem[]
 
   category Category @relation(fields: [categoryId], references: [id])
+}
+
+model ProductItem {
+  id        String            @id
+  status    ProductItemStatus @default(ON_STOCK)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  productId String
+
+  product Product @relation(fields: [productId], references: [id])
+}
+
+enum ProductItemStatus {
+  ON_STOCK
+  AVAILABLE
+  BOUGHT
 }
 
 model User {
