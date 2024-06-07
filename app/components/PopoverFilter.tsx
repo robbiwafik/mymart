@@ -1,31 +1,45 @@
 'use client'
 
 import { ChevronDownIcon } from '@radix-ui/react-icons'
-import { Button, Popover, ScrollArea, Table, Text, TextField } from '@radix-ui/themes'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { Button, Popover, ScrollArea, Skeleton, Table, Text, TextField } from '@radix-ui/themes'
+import { usePathname, useRouter } from 'next/navigation'
 import { ChangeEvent, useState } from 'react'
 
-interface Props {
-    data: string[]
-    placeholder: string
+export interface Item {
+	value: string
+	label: string
 }
 
-export default function PopoverFilter({ data, placeholder }: Props) {
+interface Props {
+    data: Item[]
+    loading?: boolean
+    parameterName?: string
+    placeholder: string
+    searchItem?: boolean
+}
+
+export default function PopoverFilter({ 
+    data, 
+    loading=false, 
+    parameterName='filter',
+    placeholder, 
+    searchItem=true
+}: Props) {
     const router = useRouter()
     const currentPath = usePathname()
-    const searchParams = useSearchParams()
-    const [ selectedItem, setSelectedItem ] = useState('')
+    const [ selectedItem, setSelectedItem ] = useState({ value: '', label: ''})
     const [ search, setSearch ] = useState('')
 
-    const handleSelectItem = (item: string) => {
-        const urlSearchParams = new URLSearchParams(searchParams)
-        urlSearchParams.set('filter', item)
-        router.push(`${currentPath}?${urlSearchParams.toString()}`)
-        setSelectedItem(item)
-    }
+    const urlSearchParams = new URLSearchParams()
 
     const handleSearchItem = ({ target: input }: ChangeEvent<HTMLInputElement>) => {
         setSearch(input.value.toLowerCase())
+    }
+
+    const handleSelectItem = (item: Item) => {
+        urlSearchParams.set(parameterName, item.value)
+        router.push(`${currentPath}?${urlSearchParams.toString()}`)
+        setSelectedItem(item)
     }
 
     const handleClosePopover = () => {
@@ -33,40 +47,43 @@ export default function PopoverFilter({ data, placeholder }: Props) {
     }
 
     const handleClear = () => {
-        setSelectedItem('')
-        router.push(currentPath)
+        setSelectedItem({ value: '', label: '' })
+		urlSearchParams.delete(parameterName)
+        router.push(`${currentPath}?${urlSearchParams.toString()}`)
+        router.refresh()
     }
 
-    const filteredData = data.filter(item => item.toLowerCase().includes(search))
+    const filteredData = data.filter(item => item.label.toLowerCase().includes(search))
 
     return (
         <Popover.Root>
-            <Popover.Trigger >
-                <Button variant='outline' onClick={() => setSearch('')}>
-                    {selectedItem || placeholder} <ChevronDownIcon />
-                </Button>
-            </Popover.Trigger>
+            <Skeleton loading={loading}>
+                <Popover.Trigger >
+                    <Button variant='outline' onClick={() => setSearch('')}>
+                        {selectedItem.label || placeholder} <ChevronDownIcon />
+                    </Button>
+                </Popover.Trigger>
+            </Skeleton>
             <Popover.Content>
-                <TextField.Root onChange={handleSearchItem} />
+                {searchItem && <TextField.Root mb='4' onChange={handleSearchItem} />}
                 {filteredData.length > 0 && 
                     <>
                         <ScrollArea
-                            className='pr-8' 
-                            mt='4' 
+                            className='pr-2'
                             scrollbars='vertical' 
-                            style={{ height: 180 }} 
-                            type='always' 
+                            style={{ maxHeight: 180 }} 
+                            type='hover' 
                         >
                             <Table.Root>
                                 <Table.Body>
                                     {filteredData.map(item => (
-                                        <Table.Row key={item}>
+                                        <Table.Row key={item.value}>
                                             <Popover.Close onClick={handleClosePopover}>
                                                 <Table.Cell 
                                                     className='hover:text-[var(--accent-9)] hover:cursor-pointer'
                                                     onClick={() => handleSelectItem(item)}
                                                 >
-                                                    {item}
+                                                    {item.label}
                                                 </Table.Cell>
                                             </Popover.Close>
                                         </Table.Row>

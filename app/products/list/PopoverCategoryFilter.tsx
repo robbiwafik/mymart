@@ -1,19 +1,26 @@
 'use client'
 
-import PopoverFilter from '@/app/components/PopoverFilter'
+import PopoverFilter, { Item } from '@/app/components/PopoverFilter'
+import { Category } from '@prisma/client'
+import { Skeleton } from '@radix-ui/themes'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import _ from 'lodash'
 
 export default function PopoverCategoryFilter() {
-    const { data: categories } = useQuery({
+    const { data: categories, isLoading } = useQuery<Category[]>({
         queryKey: ['product-categories'],
         queryFn: () => axios.get('/api/categories').then(res => res.data),
-        staleTime: 60 * 1000 // 60s
+        staleTime: 180 * 1000 // 180s
     })
-    const categoryNames = _.map(categories, 'name')
+
+    const filterItems = categories?.map(category => ({ value: category.id.toString(), label: category.name }))
     
     return (
-        <PopoverFilter data={categoryNames} placeholder='Filter by category' />
+        <PopoverFilter 
+            data={filterItems || []} 
+            loading={isLoading} 
+            placeholder='Filter by category' 
+        />
     )
 }

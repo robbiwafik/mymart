@@ -4,7 +4,8 @@ import prisma from '@/prisma/client'
 import { Button, Flex } from '@radix-ui/themes'
 import Link from 'next/link'
 import PopoverCategoryFilter from './PopoverCategoryFilter'
-import ProductTable from './ProductTable'
+import nextDynamic from 'next/dynamic' // nextDynamic -> dynamic (conflict names)
+const ProductTable = nextDynamic(() => import('./ProductTable'), { ssr: false })
 
 interface Props {
     searchParams: {
@@ -16,7 +17,13 @@ interface Props {
 
 export default async function ProductListPage({ searchParams }: Props) {
     const pageSize = 10
-    const currentPage = parseInt(searchParams.page) || 1
+    let currentPage = parseInt(searchParams.page) || 1
+
+    let filterQueryParams
+    if (searchParams.filter && !isNaN(parseInt(searchParams.filter))) {
+        filterQueryParams = parseInt(searchParams.filter)
+        currentPage = 1
+    }
     
     const products = await prisma.product.findMany({
         where: {
@@ -24,7 +31,7 @@ export default async function ProductListPage({ searchParams }: Props) {
                 contains: searchParams.search
             },
             category: {
-                name: searchParams.filter
+                id: filterQueryParams
             }
         },
         include: {

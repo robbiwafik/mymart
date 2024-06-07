@@ -46,7 +46,7 @@ model ProductItem {
 enum ProductItemStatus {
   ON_STOCK
   AVAILABLE
-  BOUGHT
+  SOLD
 }
 
 model User {

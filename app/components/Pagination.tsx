@@ -29,7 +29,7 @@ export default function Pagination({ itemCount, currentPage, pageSize }: Props )
         return null
 
     return (
-        <Flex mt='4' align='center' gap='4' justify='end'>
+        <Flex align='center' gap='4' justify='end'>
             <Text size='2'>{currentPage} of {pageCount} pages</Text>
             <Flex gap='2'>
                 <Button variant='outline' color='gray' onClick={() => handleMovePage(1)} disabled={currentPage === 1}>

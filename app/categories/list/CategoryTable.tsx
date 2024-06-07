@@ -1,9 +1,8 @@
-import EmptyTable from '@/app/components/EmptyTable'
+import { SortableTableColumn, EmptyTable } from '@/app/components'
 import paths from '@/app/paths'
 import { Category } from '@prisma/client'
 import { Link as RadixLink, Table } from '@radix-ui/themes'
 import Link from 'next/link'
-import SortableTableColumn from './SortableTableColumn'
 
 interface Props {
     categories: Category[],
