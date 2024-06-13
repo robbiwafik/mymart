@@ -1,3 +1,4 @@
+import { ProductItemStatus } from '@prisma/client'
 import { z } from 'zod'
 
 export const categorySchema = z.object({
@@ -43,4 +44,12 @@ export const changePasswordSchema = z.object({
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
             'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character'
         )
+})
+
+export const productItemSchema = z.object({
+    ids: z.array(z.object({ 
+        id: z.number(), 
+        value: z.string().min(8, 'Id cannot be empty.').max(100)
+    })),
+    status: z.nativeEnum(ProductItemStatus)
 })

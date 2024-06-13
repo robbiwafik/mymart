@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic'
 import { notFound } from 'next/navigation'
 import PopoverStatusFilter from './PopoverStatusFilter'
 import { ProductItemSortingField } from './ProductItemTable'
+import NewProductItemButton from './NewProductItemButton'
 const ProductItemTable = dynamic(() => import('./ProductItemTable'), { ssr: false })
 
 interface Props {
@@ -54,9 +55,10 @@ export default async function ProductItemListPage({ params, searchParams }: Prop
 	return (
 		<Flex direction='column' gap='4'>
 			<PageTitle value={product.name} />
-			<Flex gap='2'>
+			<Flex gap='4'>
 				<PopoverStatusFilter />
 				<SearchBox placeholder='Search product item...' />
+				<NewProductItemButton productId={product.id} />
 			</Flex>
 			<ProductItemTable 
 				productItems={paginatedProductItems} 

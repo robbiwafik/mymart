@@ -5,7 +5,9 @@ const NEW_CATEGORY = '/categories/new'
 const PRODUCT_LIST = '/products/list'
 const NEW_PRODUCT = '/products/new'
 const productDetails = (id: string) => `/products/${id}`
+
 const productItemListPage = (productId: string) => `/products/${productId}/items/list`
+const newProductItemPage = (productId: string) => `/products/${productId}/items/new`
 
 const LOGIN_PAGE = '/auth/signin'
 const REGISTER_PAGE = '/register'
@@ -19,6 +21,7 @@ const paths = {
     NEW_PRODUCT,
     productDetails,
     productItemListPage,
+    newProductItemPage,
     LOGIN_PAGE,
     REGISTER_PAGE
 }

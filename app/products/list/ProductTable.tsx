@@ -5,6 +5,7 @@ import { Table, Link as RadixLink } from '@radix-ui/themes'
 import _ from 'lodash'
 import Link from 'next/link'
 import paths from '@/app/paths'
+import ShowProductItemsButton from './ShowProductItemsButton'
 
 interface Product extends ProductModel {
     category: Category
@@ -33,6 +34,7 @@ export default async function ProductTable({ products, currentPage, pageSize }: 
                         <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
                         <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
                         <Table.ColumnHeaderCell>Category</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -48,6 +50,9 @@ export default async function ProductTable({ products, currentPage, pageSize }: 
                             </Table.RowHeaderCell>
                             <Table.Cell>$ {product.price}</Table.Cell>
                             <Table.Cell>{product.category.name}</Table.Cell>
+                            <Table.Cell>
+                                <ShowProductItemsButton productId={product.id} />
+                            </Table.Cell>
                         </Table.Row>
                     ))}
                 </Table.Body>

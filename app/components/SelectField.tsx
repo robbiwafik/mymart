@@ -1,24 +1,26 @@
 'use client'
 
-import { 
-    Box, Button, ChevronDownIcon, 
-    Flex, Popover, ScrollArea, 
-    Skeleton, Table, Text, 
-    TextField 
+import {
+    Box, Button, ChevronDownIcon,
+    Flex, Popover, ScrollArea,
+    Skeleton, Table, Text,
+    TextField
 } from '@radix-ui/themes'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import FieldLabel from './FieldLabel'
 
 interface Props {
     defaultValue?: any
     error?: string
     label: string
     loading?: boolean
-    onChange?: (value: string) => void
+    onChange: (value: string) => void
     options: {
         value: any,
         label: string
     }[]
     placeholder?: string
+    searchLabel?: boolean
 }
 
 export default function SelectionField({
@@ -28,10 +30,15 @@ export default function SelectionField({
     loading=false, 
     onChange,
     options,
-    placeholder
+    placeholder,
+    searchLabel=true
 }: Props) {
     const [ selected, setSelected ] = useState(defaultValue || '')
     const [ searchQuery, setSearchQuery ] = useState('')
+
+    useEffect(() => {
+        onChange(selected)
+    }, [])
 
     const handleSearch = (searchQuery: string) => {
         setSearchQuery(searchQuery)
@@ -49,8 +56,8 @@ export default function SelectionField({
     ))
     
     return (
-        <Flex direction='column' gap='2' align='start' mb='4'>
-            <Text as='label' size='2' color='gray'>{label}</Text>
+        <Flex direction='column' gap='2' align='start'>
+            <FieldLabel value={label} />
             <Popover.Root>
                     <Skeleton loading={loading}>
                         <Popover.Trigger>
@@ -64,10 +71,14 @@ export default function SelectionField({
                     </Skeleton>
                     <Popover.Content>
                         <Flex direction='column' gap='3'>
-                            <TextField.Root onChange={(event) => handleSearch(event.target.value)} />
+                            {searchLabel && <TextField.Root onChange={(event) => handleSearch(event.target.value)} />}
                             {filteredOptions.length > 0 &&
-                             <ScrollArea type='always' scrollbars='vertical' style={{ maxHeight: 180 }}>
-                                <Box pr='5'>
+                             <ScrollArea 
+                                type='hover' 
+                                scrollbars='vertical' 
+                                style={{ maxHeight: 180 }}
+                             >
+                                <Box pr='4'>
                                     <Table.Root>
                                         <Table.Body>
                                             {filteredOptions.map(option => (

@@ -1,6 +1,7 @@
 export { default as DeleteButton } from './DeleteButton'
 export { default as EmptyTable } from './EmptyTable'
 export { default as Field } from './Field'
+export { default as FieldLabel } from './FieldLabel'
 export { default as FormCard } from './FormCard'
 export { default as GoBackButton } from './GoBackButton'
 export { default as PageTitle } from './PageTitle'

@@ -1,8 +1,6 @@
 import { PageTitle } from '@/app/components'
-import paths from '@/app/paths'
 import prisma from '@/prisma/client'
-import { Box, Button, Flex } from '@radix-ui/themes'
-import Link from 'next/link'
+import { Box, Flex } from '@radix-ui/themes'
 import { notFound } from 'next/navigation'
 import ProductForm from '../_components/ProductForm'
 
@@ -25,9 +23,6 @@ export default async function ProductDetailsPage({ params }: Props) {
                 <Box width='800px'>
                     <ProductForm product={product} />
                 </Box>
-                <Link href={paths.productItemListPage(product.id)}>
-                    <Button variant='outline'>Show items</Button>
-                </Link>
             </Flex>
         </Flex>
     )

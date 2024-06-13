@@ -1,4 +1,5 @@
 import { Flex, Skeleton, Text, TextField } from '@radix-ui/themes'
+import FieldLabel from './FieldLabel'
 
 interface Props {
     disabled?: boolean
@@ -30,13 +31,7 @@ export default function Field({
             maxWidth={maxWidth || '100%'} 
             mb='4'
         >
-            <Text
-                size='2' 
-                color='gray' 
-                as='label'
-            >
-                {label}
-            </Text>
+            <FieldLabel value={label} />
             <Skeleton loading={loading}>
                 <TextField.Root 
                     defaultValue={defaultValue} 
